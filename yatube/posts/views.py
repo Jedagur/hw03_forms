@@ -36,7 +36,7 @@ def group_posts(request, slug):
     context = {
         'group': group,
         'posts': posts,
-        'page_obj' : page_obj
+        'page_obj': page_obj
     }
     return render(request, template, context)
 
