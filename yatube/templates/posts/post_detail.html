@@ -1,43 +1,32 @@
+{% extends 'base.html' %}
 <!DOCTYPE html>
 <html lang="ru">
   <head>
-      {% extends 'base.html' %}
     <!-- Подключены иконки, стили и заполенены мета теги -->
     <title>Пост <!-- Первые 30 букв поста --></title>
   </head>
   <body>
-    <header>
-      <nav class="navbar navbar-light" style="background-color: lightskyblue">
-        <div class="container">
-          <a class="navbar-brand" href="/">
-            <img src="/static/img/logo.png" width="30" height="30" class="d-inline-block align-top" alt="">
-            <span style="color:red">Ya</span>tube
-          </a>
-        </div>
-      </nav>
-    </header>
     <main>
         {% block content %}
       <div class="row">
         <aside class="col-12 col-md-3">
           <ul class="list-group list-group-flush">
             <li class="list-group-item">
-              Дата публикации: {{ post_list.pub_date|date:"d E Y" }}
+              Дата публикации: {{ post.pub_date|date:"d E Y" }}
             </li>
             <!-- если у поста есть группа -->
               <li class="list-group-item">
-                Группа: {{ post_list.group.tittle }}
-
+                Группа: {{ post.group.tittle }}
 
               </li>
               <li class="list-group-item">
-                Автор: {{ post_list.author.get_full_name }}
+                Автор: {{ post.author.get_full_name }}
               </li>
               <li class="list-group-item d-flex justify-content-between align-items-center">
-              Всего постов автора:  <span >{{post_list.author.posts.count }}</span>
+              Всего постов автора:  <span >{{post.author.posts.count }}</span>
             </li>
             <li class="list-group-item">
-              <a href= "{% url 'posts:profile' post_list.author %}">
+              <a href= "{% url 'posts:profile' post.author %}">
                 все посты пользователя
               </a>
             </li>
@@ -45,20 +34,18 @@
         </aside>
         <article class="col-12 col-md-9">
           <p>
-              {{ post_list.text }}
+              {{ post.text }}
 
           </p>
         </article>
 
               <li class="list-group-item">
 
-                <a href = "{% url 'posts:post_edit'  post_list.id %}">Редактировать </a>
+                <a href = "{% url 'posts:post_edit'  post.id %}">Редактировать </a>
               </li>
       </div>
     </main>
     {% endblock %}
-    <footer class="border-top text-center py-3">
-      <p>© <!--2021 --> Copyright <span style="color:red">Ya</span>tube</p>
-    </footer>
+
   </body>
 </html>

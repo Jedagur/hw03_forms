@@ -11,11 +11,10 @@
     <meta name="theme-color" content="#ffffff">
     <!-- Подключен файл со стандартными стилями бустрап -->
     <title>{% block title %}Последние обновления на сайте{% endblock %}</title>
-    {% include 'includes/header.html' %}
   </head>
+  {% include 'includes/header.html' %}
    <body>
     <main>
-
         <div class ="container py-5">
              {% block content %} Контент не подвезли {% endblock %}
         </div>

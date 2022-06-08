@@ -1,10 +1,10 @@
 {% extends 'base.html' %}
-{% block title %} {{title}} {% endblock %}
+{% block title %} Все посты пользователя {{author.get_full_name }} {% endblock %}
 {% block content %}
 <main>
   <div class="container py-5">
-    <h1>Все посты пользователя {{ post_list.author.get_full_name }} </h1>
-    <h3>Всего постов: {{ post_list.count }} </h3>
+    <h1>Все посты пользователя {{author.get_full_name }} </h1>
+    <h3>Всего постов: {{ author.posts.count }} </h3>
     {% for post in post_list %}
     {% include 'includes/post_card.html' %}
     <a href="{% url 'posts:post_detail' post.id %}" >подробная информация </a>
