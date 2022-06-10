@@ -1,11 +1,9 @@
 from django.shortcuts import render, get_object_or_404
 from .models import Post
 from .models import Group
-from django.core.paginator import Paginator
 from .forms import PostForm
 from django.shortcuts import redirect
 from django.contrib.auth import get_user_model
-from yatube.settings import POST_COUNT, ON_PAGE
 from django.contrib.auth.decorators import login_required
 from .utilis import get_page_context
 
@@ -61,7 +59,8 @@ def post_create(request):
             new_post.author = request.user
             new_post.save()
             return redirect('posts:profile', request.user)
-        return render(request, 'posts/create_post.html', {'form': form})
+        return render(request, ('posts/create_post.html',
+                                {'form': form}))
 
     form = PostForm()
     return render(request, 'posts/create_post.html', {'form': form})
