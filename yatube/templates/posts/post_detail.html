@@ -1,45 +1,16 @@
 {% extends 'base.html' %}
-<!DOCTYPE html>
-<html lang="ru">
-  <head>
-    <title>Пост <!-- Первые 30 букв поста --></title>
-  </head>
-  <body>
-    <main>
-        {% block content %}
-      <div class="row">
-        <aside class="col-12 col-md-3">
-          <ul class="list-group list-group-flush">
-            <li class="list-group-item">
-              Дата публикации: {{ post.pub_date|date:"d E Y" }}
-            </li>
-            <!-- если у поста есть группа -->
-              <li class="list-group-item">
-                Группа: {{ post.group.tittle }}
-              </li>
-              <li class="list-group-item">
-                Автор: {{ post.author.get_full_name }}
-              </li>
-              <li class="list-group-item d-flex justify-content-between align-items-center">
-              Всего постов автора:  <span >{{post.author.posts.count }}</span>
-            </li>
-            <li class="list-group-item">
-              <a href= "{% url 'posts:profile' post.author %}">
-                все посты пользователя
-              </a>
-            </li>
-          </ul>
-        </aside>
-        <article class="col-12 col-md-9">
-          <p>
-              {{ post.text }}
-          </p>
-        </article>
-              <li class="list-group-item">
-                <a href = "{% url 'posts:post_edit'  post.id %}">Редактировать </a>
-              </li>
-      </div>
-    </main>
-    {% endblock %}
-  </body>
-</html>
+<title>{% block tittle %}{{group.tittle}}{% endblock %}</title>
+{% block content %}
+    <div class = "container py-5">
+    <h1>
+    {{ group.title }}
+    </h1>
+    Описание группы:
+<p>{{ group.description }}</p>
+        {% for post in page_obj %}
+{% include 'includes/post_card.html' %}
+    {% endfor %}
+    </div>
+    {% include 'includes/paginator.html' %}
+{% endblock %}
+

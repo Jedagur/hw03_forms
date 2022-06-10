@@ -7,18 +7,13 @@ from django.shortcuts import redirect
 from django.contrib.auth import get_user_model
 from yatube.settings import POST_COUNT, ON_PAGE
 from django.contrib.auth.decorators import login_required
+from .utilis import get_page_context
 
 User = get_user_model()
 
 
 def index(request):
-    post_list = Post.objects.all()
-    paginator = Paginator(post_list, ON_PAGE)
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
-    context = {
-        'page_obj': page_obj,
-    }
+    context = get_page_context(Post.objects.all(),request)
     return render(request, 'posts/index.html', context)
 
 
@@ -30,13 +25,10 @@ def group_posts(request, slug):
         .objects
         .filter(group=group)
     )
-    paginator = Paginator(posts, ON_PAGE)
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
     context = {
         'group': group,
-        'page_obj': page_obj
     }
+    context.update(get_page_context(Post.objects.all().filter(group=group),request))
     return render(request, template, context)
 
 
@@ -44,15 +36,11 @@ def profile(request, username):
     author = get_object_or_404(User, username=username)
     template = 'posts/profile.html'
     post_list = author.posts.select_related('author')
-    paginator = Paginator(post_list, ON_PAGE)
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
-    context = {
-        'post_list': post_list,
-        'page_obj': page_obj,
-        'author': author,
 
+    context = {
+        'author': author,
     }
+    context.update(get_page_context(author.posts.all(),request))
 
     return render(request, template, context)
 
