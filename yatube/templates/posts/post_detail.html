@@ -2,7 +2,6 @@
 <!DOCTYPE html>
 <html lang="ru">
   <head>
-    <!-- Подключены иконки, стили и заполенены мета теги -->
     <title>Пост <!-- Первые 30 букв поста --></title>
   </head>
   <body>
@@ -17,7 +16,6 @@
             <!-- если у поста есть группа -->
               <li class="list-group-item">
                 Группа: {{ post.group.tittle }}
-
               </li>
               <li class="list-group-item">
                 Автор: {{ post.author.get_full_name }}
@@ -35,17 +33,13 @@
         <article class="col-12 col-md-9">
           <p>
               {{ post.text }}
-
           </p>
         </article>
-
               <li class="list-group-item">
-
                 <a href = "{% url 'posts:post_edit'  post.id %}">Редактировать </a>
               </li>
       </div>
     </main>
     {% endblock %}
-
   </body>
 </html>
