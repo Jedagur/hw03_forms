@@ -13,14 +13,14 @@ User = get_user_model()
 
 
 def index(request):
-    context = get_page_context(Post.objects.all(),request)
+    context = get_page_context(Post.objects.all(), request)
     return render(request, 'posts/index.html', context)
 
 
 def group_posts(request, slug):
     group = get_object_or_404(Group, slug=slug)
     template = 'posts/group_list.html'
-    posts = (
+    (
         Post
         .objects
         .filter(group=group)
@@ -28,19 +28,17 @@ def group_posts(request, slug):
     context = {
         'group': group,
     }
-    context.update(get_page_context(Post.objects.all().filter(group=group),request))
+    context.update(get_page_context(Post.objects.all().filter(group=group), request))
     return render(request, template, context)
 
 
 def profile(request, username):
     author = get_object_or_404(User, username=username)
     template = 'posts/profile.html'
-    post_list = author.posts.select_related('author')
-
     context = {
         'author': author,
     }
-    context.update(get_page_context(author.posts.all(),request))
+    context.update(get_page_context(author.posts.all(), request))
 
     return render(request, template, context)
 
@@ -56,7 +54,6 @@ def post_detail(request, post_id):
 
 @login_required
 def post_create(request):
-    is_edit = False
     if request.method == 'POST':
         form = PostForm(request.POST)
         if form.is_valid():
@@ -72,7 +69,6 @@ def post_create(request):
 
 @login_required
 def post_edit(request, post_id):
-    is_edit = True
     post = get_object_or_404(Post, id=post_id)
     if request.method == 'POST':
         form = PostForm(request.POST or None, instance=post)
