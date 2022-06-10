@@ -26,7 +26,8 @@ def group_posts(request, slug):
     context = {
         'group': group,
     }
-    context.update(get_page_context(Post.objects.all().filter(group=group), request))
+    context.update(get_page_context
+                   (Post.objects.all().filter(group=group), request))
     return render(request, template, context)
 
 
