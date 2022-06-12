@@ -1,4 +1,5 @@
 <{% load static %}
+<article>
   <ul>
     <li>
       Автор: {{ post.author.get_full_name }}
@@ -12,3 +13,4 @@
       </li>
   </ul>
     {% if not forloop.last %}<hr>{% endif %}
+</article>

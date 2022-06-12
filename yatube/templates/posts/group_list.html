@@ -1,7 +1,6 @@
 {% extends 'base.html' %}
-<title>{% block tittle %}{{group.tittle}}{% endblock %}</title>
+{% block tittle %}{{group.tittle}}{% endblock %}
 {% block content %}
-    <div class = "container py-5">
     <h1>
     {{ group.title }}
     </h1>
@@ -10,6 +9,5 @@
         {% for post in page_obj %}
 {% include 'includes/post_card.html' %}
     {% endfor %}
-    </div>
     {% include 'includes/paginator.html' %}
 {% endblock %}

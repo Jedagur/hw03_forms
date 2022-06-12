@@ -1,16 +1,37 @@
 {% extends 'base.html' %}
-<title>{% block tittle %}{{group.tittle}}{% endblock %}</title>
+{% block title %}<title>{{title}}</title>{% endblock %}
 {% block content %}
-    <div class = "container py-5">
-    <h1>
-    {{ group.title }}
-    </h1>
-    Описание группы:
-<p>{{ group.description }}</p>
-        {% for post in page_obj %}
-{% include 'includes/post_card.html' %}
-    {% endfor %}
-    </div>
-    {% include 'includes/paginator.html' %}
+      <div class="row">
+        <aside class="col-12 col-md-3">
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              Дата публикации: {{ post_list.pub_date|date:"d E Y" }}
+            </li>
+              <li class="list-group-item">
+                Группа: {{ post_list.group }}
+                <a href="">
+                  все записи группы
+                </a>
+              </li>
+              <li class="list-group-item">
+                Автор: {{ post_list.author.get_full_name }}
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+              Всего постов автора: <span> {{ post_list.count }} </span >
+            </li>
+            <li class="list-group-item">
+              <a href="{% url 'posts:profile' post.author %}">
+                все посты пользователя
+              </a>
+            </li>
+          </ul>
+        </aside>
+        <article class="col-12 col-md-9">
+          <p>
+           {{ post_list.text }}
+          </p>
+        </article>
 {% endblock %}
+      </div>
+
 

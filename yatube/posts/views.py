@@ -18,16 +18,11 @@ def index(request):
 def group_posts(request, slug):
     group = get_object_or_404(Group, slug=slug)
     template = 'posts/group_list.html'
-    (
-        Post
-        .objects
-        .filter(group=group)
-    )
     context = {
         'group': group,
     }
     context.update(get_page_context
-                   (Post.objects.all().filter(group=group), request))
+                   (Post.objects.select_related('group').filter(group__slug=slug), request))
     return render(request, template, context)
 
 
@@ -37,7 +32,7 @@ def profile(request, username):
     context = {
         'author': author,
     }
-    context.update(get_page_context(author.posts.all(), request))
+    context.update(get_page_context(author.posts.all(),request))
 
     return render(request, template, context)
 
@@ -70,6 +65,7 @@ def post_create(request):
 @login_required
 def post_edit(request, post_id):
     post = get_object_or_404(Post, id=post_id)
+    form = PostForm(request.POST or None, instance=post)
     if request.method == 'POST':
         form = PostForm(request.POST or None, instance=post)
         if form.is_valid():
@@ -78,8 +74,5 @@ def post_edit(request, post_id):
         return render(request,
                       'posts/create_post.html',
                       {'form': form})
-    form = PostForm(
-        instance=post
-    )
     return render(request, 'posts/create_post.html',
                   {'form': form})
