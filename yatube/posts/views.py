@@ -22,7 +22,8 @@ def group_posts(request, slug):
         'group': group,
     }
     context.update(get_page_context
-                   (Post.objects.select_related('group').filter(group__slug=slug), request))
+                   (Post.objects.select_related('group').
+                    filter(group__slug=slug), request))
     return render(request, template, context)
 
 
@@ -32,7 +33,7 @@ def profile(request, username):
     context = {
         'author': author,
     }
-    context.update(get_page_context(author.posts.all(),request))
+    context.update(get_page_context(author.posts.all(), request))
 
     return render(request, template, context)
 
