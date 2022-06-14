@@ -13,8 +13,9 @@
           {% endif %}
         </div>
         <div class="card-body">
-          <form method="post">
-          {% include 'users/../includes/forms.html' %}
+          <form  action = "create_post.html" method="post">
+          {% include 'includes/forms.html' %}
+               <input type="submit" value="Submit">
           </form>
         </div>
       </div>

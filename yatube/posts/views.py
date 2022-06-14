@@ -22,10 +22,8 @@ def group_posts(request, slug):
         'group': group,
     }
     context.update(get_page_context
-                   (Post.objects.select_related('group').
-                    filter(group__slug=slug), request))
+                   (group.posts.select_related('author', 'group'), request))
     return render(request, template, context)
-
 
 def profile(request, username):
     author = get_object_or_404(User, username=username)
@@ -34,7 +32,6 @@ def profile(request, username):
         'author': author,
     }
     context.update(get_page_context(author.posts.all(), request))
-
     return render(request, template, context)
 
 
@@ -49,6 +46,7 @@ def post_detail(request, post_id):
 
 @login_required
 def post_create(request):
+    is_edit = False
     if request.method == 'POST':
         form = PostForm(request.POST)
         if form.is_valid():
@@ -65,6 +63,7 @@ def post_create(request):
 
 @login_required
 def post_edit(request, post_id):
+    is_edit = True
     post = get_object_or_404(Post, id=post_id)
     form = PostForm(request.POST or None, instance=post)
     if request.method == 'POST':
@@ -74,6 +73,6 @@ def post_edit(request, post_id):
             return redirect('posts:post_detail', post.id)
         return render(request,
                       'posts/create_post.html',
-                      {'form': form})
+                      {'form':form})
     return render(request, 'posts/create_post.html',
-                  {'form': form})
+                  {'form':form})
