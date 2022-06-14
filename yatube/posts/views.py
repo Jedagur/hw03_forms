@@ -47,7 +47,6 @@ def post_detail(request, post_id):
 
 @login_required
 def post_create(request):
-    is_edit = False
     if request.method == 'POST':
         form = PostForm(request.POST)
         if form.is_valid():
@@ -64,7 +63,6 @@ def post_create(request):
 
 @login_required
 def post_edit(request, post_id):
-    is_edit = True
     post = get_object_or_404(Post, id=post_id)
     form = PostForm(request.POST or None, instance=post)
     if request.method == 'POST':
