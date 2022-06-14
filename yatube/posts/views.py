@@ -25,6 +25,7 @@ def group_posts(request, slug):
                    (group.posts.select_related('author', 'group'), request))
     return render(request, template, context)
 
+
 def profile(request, username):
     author = get_object_or_404(User, username=username)
     template = 'posts/profile.html'
@@ -73,6 +74,6 @@ def post_edit(request, post_id):
             return redirect('posts:post_detail', post.id)
         return render(request,
                       'posts/create_post.html',
-                      {'form':form})
+                      {'form': form})
     return render(request, 'posts/create_post.html',
-                  {'form':form})
+                  {'form': form})
